@@ -52,9 +52,8 @@ int  main(int  argc, char *argv[]) {
      } else {                 // Parent Process
         for (i = 0; i < 25; i++) {
                sleep(random() % 6);
+               while (ShmPTR[Turn] != 0);
                account = ShmPTR[BankAccount];
-               while (ShmPTR[Turn] != 0)
-                    ;
                if (account <= 100) {              // if Account Balance <= 100
                     deposit = random()% 101;      // random deposit between 0-100
                     if (deposit % 2 == 0) {       // if deposit is even
@@ -88,9 +87,8 @@ void ChildProcess(int SharedMem[]) {
 
     for (i = 0; i < 25; i++) {
         sleep(random() % 6);
-          account = SharedMem[BankAccount];
-        while (SharedMem[Turn] != 1)
-               ;
+        while (SharedMem[Turn] != 1);
+        account = SharedMem[BankAccount];
         withdrawal = random()% 51;        // random withdrawal between 0-50
         printf("    Poor Student needs $%d\n", withdrawal);
         if (withdrawal <= account) {       // if withdrawal <= Account Balance
